@@ -18,4 +18,5 @@ Route::get('/', function () {
 Route::post('/user/reg', 'Api\ApiController@reg');
 
 Route::post('/user/login', 'Api\ApiController@login');
+Route::get('/user/token', 'Api\ApiController@token');
 

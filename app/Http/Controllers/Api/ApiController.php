@@ -12,12 +12,13 @@ class ApiController extends Controller
     {
         $user_email = $request->input('user_email');
         $user_pwd = $request->input('user_pwd');
+        $token = $request->input('token');
+        $token = md5($token);
         $info = User::where(['user_email' => $user_email])->first();
         if ($info) {
             $pass = $info->user_pwd;
             if (password_verify($user_pwd, $pass)) {
-                $token = md5($info['user_id'],time());
-                Redis::expire($token,604800);
+                Redis::set('token',$token,604800);
                 return json_encode(['find'=>'登陆成功','code'=>'200']);
             } else {
                 return json_encode(['find'=>'密码有误','code'=>'201']);
@@ -41,5 +42,18 @@ class ApiController extends Controller
         } else {
             return json_encode(['find'=>'注册失败','code'=>'201']);
         }
+    }
+
+    public function token(Request $request)
+    {
+        $token = $request->input('token');
+        $token = md5($token);
+        if($token != Redis::get('token')){
+            echo 'token和登陆时存入的token不一致';die;
+        }else{
+            $data = User::get();
+            return json_encode($data);
+        }
+
     }
 }
