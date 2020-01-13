@@ -112,4 +112,29 @@ class ApiController extends Controller
         }
 
     }
+
+    public function auth()
+    {
+        $token = $_POST['token'];
+        $user_id = $_POST['user_id'];
+        if(empty($user_id) || empty($token)){
+            $response = [
+                'code'=>203,
+                'msg'=>'Uid Not Valid!'
+            ];
+            return $response;
+        }
+        if ($token != Redis::get('token')) {
+            $response = [
+                'code'=>203,
+                'msg'=>'Token Not Valid!'
+            ];
+        } else {
+            $response = [
+                'code'=>0,
+                'msg'=>'ok'
+            ];
+        }
+        return $response;
+    }
 }
