@@ -64,30 +64,40 @@ class ApiController extends Controller
      */
     public function reg(Request $request)
     {
-        $this->validate($request, [
-            'user_name' => 'required|unique:user',
-            'user_email' => 'required|unique:user',
-            'user_tel' => 'required|unique:user',
-        ],[
-            'user_name.unique'=>'用户名称不能一致',
-            'user_name.required'=>'用户名称不能为空',
-            'user_email.unique'=>'邮箱称不能一致',
-            'user_email.required'=>'邮箱称不能为空',
-            'user_tel.unique'=>'手机号称不能一致',
-            'user_tel.required'=>'手机号称不能为空',
-        ]);
-
-
-        $data = $request->all();
-        if($data['user_pwd1'] != $data['user_pwd']){
-            return json_encode(['msg'=>'密码不一致','code'=>'202'],JSON_UNESCAPED_UNICODE);
+        $user_name = $request->input('user_name');
+        $name = User::where(['user_name'=>$user_name])->first();
+        if(!empty($name)){
+            return json_encode(['msg'=>'用户名不能一致','code'=>'202'],JSON_UNESCAPED_UNICODE);
+            die;
         }
-        $data['user_pwd'] = password_hash($data['user_pwd'], PASSWORD_BCRYPT);
+
+        $user_email = $request->input('user_email');
+        $email = User::where(['user_email'=>$user_email])->first();
+        if(!empty($email)){
+            return json_encode(['msg'=>'邮箱不能一致','code'=>'202'],JSON_UNESCAPED_UNICODE);
+            die;
+        }
+
+        $user_tel = $request->input('user_tel');
+        $tel = User::where(['user_tel'=>$user_tel])->first();
+        if(!empty($tel)){
+            return json_encode(['msg'=>'手机号不能一致','code'=>'202'],JSON_UNESCAPED_UNICODE);
+            die;
+        }
+
+        $user_pwd = $request->input('user_pwd');
+        $user_pwd1 = $request->input('user_pwd1');
+        if($user_pwd1 != $user_pwd){
+            return json_encode(['msg'=>'密码不一致','code'=>'202'],JSON_UNESCAPED_UNICODE);
+            die;
+        }
+
+        $user_pwd = password_hash($user_pwd, PASSWORD_BCRYPT);
         $res = User::create([
-            'user_name'=>$data['user_name'],
-            'user_tel'=>$data['user_tel'],
-            'user_email'=>$data['user_email'],
-            'user_pwd'=>$data['user_pwd'],
+            'user_name'=>$user_name,
+            'user_tel'=>$user_tel,
+            'user_email'=>$user_email,
+            'user_pwd'=>$user_pwd,
         ]);
         if ($res) {
             return json_encode(['msg'=>'注册成功','code'=>'200'],JSON_UNESCAPED_UNICODE);
