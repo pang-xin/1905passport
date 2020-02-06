@@ -22,3 +22,5 @@ Route::get('/user/token', 'Api\ApiController@token');
 
 Route::post('/user/auth', 'Api\ApiController@auth');
 Route::get('/api/love', 'Api\ApiController@love');
+
+Route::get('/test/sign', 'TestController@sign');
