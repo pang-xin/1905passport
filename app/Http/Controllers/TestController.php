@@ -20,4 +20,22 @@ class TestController extends Controller
             echo '验签成功';
         }
     }
+
+    public function sign2()
+    {
+        print_r($_POST);
+        $key = "ljx";
+        $data = $_POST['data'];
+        $sign = $_POST['sign'];
+        echo '<br>';
+        //计算签名
+        $check = md5($data.$key);
+        echo '接受签名：'.$check;
+        //对比接收过来的签名
+        if($check != $sign){
+            echo '验签失败';
+        }else{
+            echo '验签成功';
+        }
+    }
 }

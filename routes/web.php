@@ -23,4 +23,5 @@ Route::get('/user/token', 'Api\ApiController@token');
 Route::post('/user/auth', 'Api\ApiController@auth');
 Route::get('/api/love', 'Api\ApiController@love');
 
-Route::get('/test/sign', 'TestController@sign');
+Route::get('/test/sign', 'TestController@sign');//验签
+Route::post('/test/sign2', 'TestController@sign2');//post验签
