@@ -26,3 +26,6 @@ Route::get('/api/love', 'Api\ApiController@love');
 Route::get('/test/sign', 'TestController@sign');//验签
 Route::post('/test/sign2', 'TestController@sign2');//post验签
 Route::get('/test/sign3', 'TestController@key_sign');//公钥验签
+
+
+Route::get('/test/decrypt', 'TestController@decrypt');//公钥验签

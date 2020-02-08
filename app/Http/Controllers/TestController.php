@@ -62,4 +62,21 @@ class TestController extends Controller
             echo '验签失败';
         }
     }
+
+    /**
+     * 加密
+     */
+    public function decrypt()
+    {
+        //接受到传过来的加密数据
+        $data = $_GET['data'];
+        //使用base64转换为可解密的数据
+        $data=base64_decode($data);
+        $method = "AES-256-CBC";
+        $key = "1905api";
+        $iv = "WUSD8796IDjhkchd";
+        //解密
+        $enc_data = openssl_decrypt($data,$method,$key,OPENSSL_RAW_DATA,$iv);
+        echo '解密：'.$enc_data;echo "<br>";
+    }
 }
