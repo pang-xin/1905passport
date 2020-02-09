@@ -28,4 +28,5 @@ Route::post('/test/sign2', 'TestController@sign2');//post验签
 Route::get('/test/sign3', 'TestController@key_sign');//公钥验签
 
 
-Route::get('/test/decrypt', 'TestController@decrypt');//公钥验签
+Route::get('/test/decrypt', 'TestController@decrypt');//对称解密
+Route::get('/test/decrypt2', 'TestController@key_decrypt');//非对称解密

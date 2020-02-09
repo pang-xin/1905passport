@@ -64,7 +64,7 @@ class TestController extends Controller
     }
 
     /**
-     * 加密
+     * 解密
      */
     public function decrypt()
     {
@@ -78,5 +78,18 @@ class TestController extends Controller
         //解密
         $enc_data = openssl_decrypt($data,$method,$key,OPENSSL_RAW_DATA,$iv);
         echo '解密：'.$enc_data;echo "<br>";
+    }
+
+    public function key_decrypt()
+    {
+        //接收过来的加密数据
+        $data = $_GET['data'];
+        //base64转换可解密的数据
+        $data = base64_decode($data);
+        //使用非对称解密
+        $pub = storage_path('keys/pub.key');
+        $pubid = openssl_pkey_get_public("file://" . $pub);
+        openssl_public_decrypt($data,$dec_data,$pubid,OPENSSL_PKCS1_PADDING);
+        echo '解密数据:'.$dec_data;
     }
 }
